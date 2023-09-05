@@ -14,7 +14,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class FacultyServiceImplTest {
 
-    FacultyServiceImpl underTest = new FacultyServiceImpl();
+    FacultyRepository underTest = new FacultyRepository() {
+
 
     Faculty faculty1 = new Faculty(0L,"Slizerine", "Green");
     Faculty faculty2 = new Faculty(1L,"Grifindor", "Red");

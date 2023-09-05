@@ -7,50 +7,59 @@ import ru.hogwarts.school.model.Student;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class StudentServiceImpl implements StudentService{
 
-    private final Map<Long, Student> studentMap = new HashMap<>();
+    private final StudentRepository studentRepository;
 
-    private long counter;
+    public StudentServiceImpl(StudentRepository studentRepository){
+        this.studentRepository = studentRepository;
+    }
 
     public Student create(Student student){
-        if(studentMap.containsValue(student)){
+        if(studentRepository.findByNameAndAge(student.getName(), student.getAge()).isPresent()){
             throw new StudentException("this student already added in base!");
         }
 
-        student.setId(++counter);
-        studentMap.put(student.getId(), student);
+        return studentRepository.save(student);
 
-        return student;
+
     }
     public Student read(long id){
-        if(!studentMap.containsKey(id)){
+
+        Optional<Student> student = studentRepository.findById(id);
+
+        if(student.isEmpty()){
             throw new StudentException("Student not found!");
         }
 
-        return studentMap.get(id);
+        return student.get();
     }
     public Student update(Student student){
-        if(!studentMap.containsKey(student.getId())){
+
+        if(studentRepository.findById(student.getId()).isEmpty()){
             throw new StudentException("Student not found!");
         }
 
-        studentMap.put(student.getId(), student );
+        return studentRepository.save(student);
+    }
+    public Student delete(long id) {
 
-        return student;
-    }
-    public Student delete(long id){
-       Student student= studentMap.remove(id);
-       if(student == null){
-           throw new StudentException("Student not found!");
-       }
-        return student;
-    }
+        Optional<Student> student = studentRepository.findById(id);
+
+        if (student .isEmpty()) {
+            throw new StudentException("Student not found!");
+        }
+
+            studentRepository.deleteById(id);
+            return student.get();
+
+        }
+
     public List<Student> readAll(int age){
-        return studentMap.values().stream().filter(stud -> stud.getAge() == age)
-            .collect(Collectors.toUnmodifiableList());
+        return studentRepository.findByAge(age);
     }
 }
