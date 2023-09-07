@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 import ru.hogwarts.school.exception.FacultyException;
 
 import ru.hogwarts.school.model.Faculty;
-
+import ru.hogwarts.school.repository.FacultyRepository;
 
 
 import java.util.List;
@@ -23,7 +23,8 @@ public class FacultyServiceImpl implements FacultyService {
 
 
     public Faculty create(Faculty faculty) {
-        if (facultyRepository.findByNameAndColor(faculty.getName(), faculty.getColor()).isPresent()) {
+        if (facultyRepository.findByNameAndColor(faculty.getName(),
+                faculty.getColor()).isPresent()) {
             throw new FacultyException("this faculty already added in base!");
         }
 
@@ -37,7 +38,7 @@ public class FacultyServiceImpl implements FacultyService {
         Optional<Faculty> faculty = facultyRepository.findById(id);
 
         if (faculty.isEmpty()) {
-            throw new FacultyException("Faculty not found!");
+            throw new FacultyException("faculty not found!");
         }
 
         return faculty.get();
@@ -46,7 +47,7 @@ public class FacultyServiceImpl implements FacultyService {
     public Faculty update(Faculty faculty) {
 
         if (facultyRepository.findById(faculty.getId()).isEmpty()) {
-            throw new FacultyException("Faculty not found!");
+            throw new FacultyException("faculty not found!");
         }
 
         return facultyRepository.save(faculty);
@@ -57,7 +58,7 @@ public class FacultyServiceImpl implements FacultyService {
         Optional<Faculty> faculty = facultyRepository.findById(id);
 
         if (faculty.isEmpty()) {
-            throw new FacultyException("Faculty not found!");
+            throw new FacultyException("faculty not found!");
         }
 
         facultyRepository.deleteById(id);

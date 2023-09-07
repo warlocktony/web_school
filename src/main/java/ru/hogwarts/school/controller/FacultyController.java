@@ -13,27 +13,32 @@ public class FacultyController {
 
     public final FacultyService facultyService;
 
-    public FacultyController(FacultyService facultyService){
+    public FacultyController(FacultyService facultyService) {
         this.facultyService = facultyService;
     }
+
     @PostMapping
-    public Faculty create(@RequestBody Faculty faculty){
+    public Faculty create(@RequestBody Faculty faculty) {
         return facultyService.create(faculty);
     }
+
     @GetMapping("/({id})")
-    public Faculty read(@PathVariable long id){
+    public Faculty read(@PathVariable long id) {
         return facultyService.read(id);
     }
+
     @PutMapping
-    public Faculty update(@RequestBody Faculty faculty){
+    public Faculty update(@RequestBody Faculty faculty) {
         return facultyService.update(faculty);
     }
+
     @DeleteMapping("/({id})")
-    public Faculty delete(@PathVariable long id){
+    public Faculty delete(@PathVariable long id) {
         return facultyService.delete(id);
     }
+
     @GetMapping("/color/{color}")
-    public Collection<Faculty> readAll(String color){
+    public Collection<Faculty> readAll(String color) {
         return facultyService.readAll(color);
     }
 

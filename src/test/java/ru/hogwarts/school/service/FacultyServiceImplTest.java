@@ -6,9 +6,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import ru.hogwarts.school.exception.FacultyException;
-import ru.hogwarts.school.exception.StudentException;
 import ru.hogwarts.school.model.Faculty;
-import ru.hogwarts.school.model.Student;
+import ru.hogwarts.school.repository.FacultyRepository;
+
 
 import java.util.Collection;
 import java.util.List;
@@ -22,70 +22,82 @@ public class FacultyServiceImplTest {
 
     @Mock
     FacultyRepository facultyRepository;
+
     @InjectMocks
     FacultyServiceImpl underTest;
 
 
+    Faculty faculty1 = new Faculty(0L, "Slizerine", "Green");
+    Faculty faculty2 = new Faculty(1L, "Grifindor", "Red");
+    List<Faculty> facultyes = List.of(faculty1, faculty2);
 
-    Faculty faculty1 = new Faculty(0L,"Slizerine", "Green");
-    Faculty faculty2 = new Faculty(1L,"Grifindor", "Red");
-    List<Faculty> facultyes = List.of(faculty1,faculty2);
-    List<Faculty> facultyesOnlyGreenColor = List.of(faculty1);
 
 
     @Test
-    void create_facultyInRepository_throwsFacultyException(){
+    void create_facultyInRepository_throwsFacultyException() {
         when(facultyRepository.findByNameAndColor("Slizerine", "Green"))
                 .thenReturn(Optional.of(faculty1));
 
-       FacultyException ex =
+        FacultyException ex =
                 assertThrows(FacultyException.class,
                         () -> underTest.create(faculty1));
-       assertEquals("this faculty already added in base!", ex.getMessage());
+        assertEquals("this faculty already added in base!", ex.getMessage());
     }
+
     @Test
-    void create_facultyNotInRepository_facultyAddedAndReturned(){
+    void create_facultyNotInRepository_facultyAddedAndReturned() {
 
         when(facultyRepository.findByNameAndColor("Slizerine", "Green"))
-                .thenReturn(Optional.of(faculty1));
-        Faculty result = underTest.create(faculty1);
-        assertEquals(faculty1,result);
-//        assertEquals(0,result.getId());
+                .thenReturn(Optional.empty());
+        when(facultyRepository.save(faculty1))
+                .thenReturn(faculty1);
 
-   }
+        Faculty result = underTest.create(faculty1);
+        assertEquals(faculty1, result);
+        assertEquals(0, result.getId());
+
+    }
+
     @Test
-    void read_facultyNotInRepository_throwsFacultyException(){
+    void read_facultyNotInRepository_throwsFacultyException() {
         when(facultyRepository.findById(0L))
                 .thenReturn(Optional.empty());
         FacultyException ex =
-               assertThrows(FacultyException.class,
+                assertThrows(FacultyException.class,
                         () -> underTest.read(0));
         assertEquals("faculty not found!", ex.getMessage());
     }
-   @Test
+
+    @Test
     void read_facultyInRepository_facultyAddedAndReturned() {
-       when(facultyRepository.findById(0L))
-               .thenReturn(Optional.of(faculty1));
-       Faculty result = underTest.read(0);
-       assertEquals(faculty1,result);
+        when(facultyRepository.findById(0L))
+                .thenReturn(Optional.of(faculty1));
+        Faculty result = underTest.read(0);
+        assertEquals(faculty1, result);
 
     }
+
     @Test
-    void update_facultyNotInRepository_throwsFacultyException(){
+    void update_facultyNotInRepository_throwsFacultyException() {
         when(facultyRepository.findById(0L))
                 .thenReturn(Optional.empty());
+
 
         FacultyException ex =
                 assertThrows(FacultyException.class,
                         () -> underTest.update(faculty1));
         assertEquals("faculty not found!", ex.getMessage());
     }
+
     @Test
     void update_facultyInRepository_facultyUpdatedAndReturned() {
         when(facultyRepository.findById(0L))
                 .thenReturn(Optional.of(faculty1));
+        when(facultyRepository.save(faculty1))
+                .thenReturn(faculty1);
+
         Faculty result = underTest.update(faculty1);
-        assertEquals(faculty1,result);
+        assertEquals(faculty1, result);
     }
 
 
@@ -97,30 +109,29 @@ public class FacultyServiceImplTest {
                 assertThrows(FacultyException.class,
                         () -> underTest.delete(0));
         assertEquals("faculty not found!", ex.getMessage());
-   }
+    }
+
     @Test
     void delete_facultyInRepository_facultyUpdatedAndReturned() {
         when(facultyRepository.findById(0L))
                 .thenReturn(Optional.of(faculty1));
         Faculty rasult = underTest.delete(0);
-        assertEquals(faculty1,rasult);
+        assertEquals(faculty1, rasult);
     }
 
 
     @Test
-    void readAll__returnCollectionOfFaculty(){
-        when(facultyRepository.findByNameAndColor("Slizerine", "Green"))
-                .thenReturn(Optional.of(faculty1));
-        underTest.create(faculty1);
+    void readAll__returnCollectionOfFaculty() {
+        when(facultyRepository.findByColor("Green"))
+                .thenReturn(facultyes);
+
         Collection<Faculty> result = underTest.readAll("Green");
-        assertTrue(result.containsAll(facultyesOnlyGreenColor));
+        assertEquals(facultyes,result);
 
     }
-//        Collection<Faculty> result = faculties;
-//        assertEquals(faculties,result);
 
 
-    }
+}
 
 
 
