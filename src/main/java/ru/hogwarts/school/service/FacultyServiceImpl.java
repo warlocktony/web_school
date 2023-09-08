@@ -67,6 +67,6 @@ public class FacultyServiceImpl implements FacultyService {
     }
 
     public List<Faculty> readAll(String color) {
-        return facultyRepository.findByColor(color);
+        return facultyRepository.findByColorIgnoreCase(color);
     }
 }

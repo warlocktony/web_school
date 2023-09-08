@@ -122,7 +122,7 @@ public class FacultyServiceImplTest {
 
     @Test
     void readAll__returnCollectionOfFaculty() {
-        when(facultyRepository.findByColor("Green"))
+        when(facultyRepository.findByColorIgnoreCase("Green"))
                 .thenReturn(facultyes);
 
         Collection<Faculty> result = underTest.readAll("Green");

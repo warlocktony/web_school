@@ -60,4 +60,8 @@ public class StudentServiceImpl implements StudentService{
     public List<Student> readAll(int age){
         return studentRepository.findByAge(age);
     }
+
+    public List<Student> readBetween(int minAge, int maxAge){
+        return studentRepository.findByAgeBetween(minAge,maxAge);
+    }
 }
