@@ -17,5 +17,4 @@ public interface FacultyRepository extends JpaRepository<Faculty, Long> {
             (String searchName, String searchColor);
     List<Faculty> findStudentFaculty(long id);
 
-
 }

@@ -49,5 +49,4 @@ public class FacultyController {
     public  Collection<Student> findStudentsOfFaculty(@PathVariable long id) {
         return facultyService.findById(id);
     }
-
     }

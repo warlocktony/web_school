@@ -20,5 +20,4 @@ public class ControllerExceptionHandler {
     public ResponseEntity<String> handleFacultyException(FacultyException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
-
 }

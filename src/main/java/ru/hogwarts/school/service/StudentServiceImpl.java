@@ -62,7 +62,6 @@ public class StudentServiceImpl implements StudentService{
             return student.get();
 
         }
-
     public List<Student> readAll(int age){
         return studentRepository.findByAge(age);
     }

@@ -20,5 +20,4 @@ public interface FacultyService {
     Collection<Faculty> readAllByNameOrColor(String name, String color);
 
     Collection<Student> findById(long id);
-
 }
