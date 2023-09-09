@@ -38,8 +38,16 @@ public class FacultyController {
     }
 
     @GetMapping("/color/{color}")
-    public Collection<Faculty> readAll(String color) {
+    public Collection<Faculty> readAll(@PathVariable String color) {
         return facultyService.readAll(color);
     }
+    @GetMapping("/nameOrColor")
+    public Collection<Faculty> readByNameOrColor(@PathVariable String name,@PathVariable String color){
+        return facultyService.readAllByNameOrColor(name,color);
+    }
+    @GetMapping("/studentsOfFaculty/{id}")
+    public  Collection<Student> findStudentsOfFaculty(@PathVariable long id) {
+        return facultyService.findById(id);
+    }
 
-}
+    }
