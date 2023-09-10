@@ -6,6 +6,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import ru.hogwarts.school.exception.StudentException;
+import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repository.StudentRepository;
 
@@ -115,8 +116,21 @@ public class StudentServiceImplTest {
         Collection<Student> result = underTest.readAll(10_000);
         assertEquals(students, result);
 
+    }
+    @Test
+    void readBetween_minAgeMaxAge_returnCollectionOdStudents(){
+        when(studentRepository.findByAgeBetween(10_000, 100_000)).thenReturn(students);
+
+        Collection<Student> result = underTest.readBetween(10_000,100_000);
+        assertEquals(students,result);
+    }
+    @Test
+    void getStudentFaculty_id_returnStudentFaculty(){
+        when(studentRepository.findById(0L)).thenReturn(Optional.of(student1));
+
+        Student result = (Student) studentRepository.findByFacultyId(0L);
+        assertEquals(student1,result);
 
     }
-
 
 }

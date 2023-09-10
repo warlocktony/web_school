@@ -42,10 +42,10 @@ public class FacultyController {
         return facultyService.readAll(color);
     }
     @GetMapping("/nameOrColor")
-    public Collection<Faculty> readByNameOrColor(@PathVariable String name,@PathVariable String color){
+    public Collection<Faculty> readByNameOrColor(@RequestParam String name,@RequestParam String color){
         return facultyService.readAllByNameOrColor(name,color);
     }
-    @GetMapping("/studentsOfFaculty/{id}")
+    @GetMapping("/{id}/studentsOfFaculty")
     public  Collection<Student> findStudentsOfFaculty(@PathVariable long id) {
         return facultyService.findById(id);
     }

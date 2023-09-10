@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.shortThat;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -30,6 +31,8 @@ public class FacultyServiceImplTest {
     Faculty faculty1 = new Faculty(0L, "Slizerine", "Green");
     Faculty faculty2 = new Faculty(1L, "Grifindor", "Red");
     List<Faculty> facultyes = List.of(faculty1, faculty2);
+
+
 
 
 
@@ -127,6 +130,19 @@ public class FacultyServiceImplTest {
 
         Collection<Faculty> result = underTest.readAll("Green");
         assertEquals(facultyes,result);
+
+    }
+    @Test
+    void readAllByNameOrColor_nameColor_returnFaculty(){
+        when(facultyRepository.findByNameContainingIgnoreCaseOrColorContainingIgnoreCase("Slizerine",""))
+                .thenReturn(facultyes);
+
+        Collection<Faculty> result = underTest.readAllByNameOrColor("Slizerine","");
+        assertEquals(facultyes,result);
+
+    }
+    @Test
+    void findById_id_returnCollectionStudent(){
 
     }
 

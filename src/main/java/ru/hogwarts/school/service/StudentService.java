@@ -20,6 +20,6 @@ public interface StudentService {
 
     Collection<Student> readBetween(int minAge, int maxAge);
 
-    Collection<Faculty> getStudentFaculty(long id);
+    Faculty getStudentFaculty(long id);
 
 }
