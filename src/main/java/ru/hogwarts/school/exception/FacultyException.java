@@ -5,3 +5,4 @@ public class FacultyException extends RuntimeException {
         super(message);
     }
 }
+

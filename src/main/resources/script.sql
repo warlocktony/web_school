@@ -9,3 +9,4 @@ select * from student where name like '%a%'
 select * from student where age < 17
 
 select * from student order by age desc
+

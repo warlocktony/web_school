@@ -69,11 +69,12 @@ public class StudentServiceImpl implements StudentService{
     public List<Student> readBetween(int minAge, int maxAge){
         return studentRepository.findByAgeBetween(minAge,maxAge);
     }
-    //в StudentServiceImpl в методе getStudentFaculty факультет можно получить
-    // геттером из студента. Нет необходимости дважды ходить в БД
 
     public Faculty getStudentFaculty(long id){
         Optional<Student> student = studentRepository.findById(id);
+        if(student.isEmpty()){
+            throw new StudentException("Student not found!");
+        }
         return student.get().getFaculty();
     }
 }

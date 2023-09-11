@@ -50,3 +50,4 @@ public class FacultyController {
         return facultyService.findById(id);
     }
     }
+

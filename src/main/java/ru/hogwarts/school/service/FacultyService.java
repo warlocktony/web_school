@@ -21,3 +21,4 @@ public interface FacultyService {
 
     Collection<Student> findById(long id);
 }
+

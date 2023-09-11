@@ -11,7 +11,7 @@ public class Student {
     private String name;
     private int age;
     @ManyToOne
-    @JoinColumn(name ="faculty_id")
+    @JoinColumn(name = "faculty_id")
     private Faculty faculty;
 
     public Student(Long id, String name, int age) {
@@ -63,6 +63,7 @@ public class Student {
         Student student = (Student) o;
         return age == student.age && Objects.equals(name, student.name);
     }
+
     @Override
     public int hashCode() {
         return Objects.hash(name, age);

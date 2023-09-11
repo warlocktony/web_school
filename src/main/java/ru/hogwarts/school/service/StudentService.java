@@ -23,3 +23,4 @@ public interface StudentService {
     Faculty getStudentFaculty(long id);
 
 }
+
