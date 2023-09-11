@@ -14,8 +14,9 @@ import java.nio.file.Files;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
+
 import static java.nio.file.StandardOpenOption.CREATE_NEW;
-import static sun.jvm.hotspot.gc.z.ZForwardingEntry.getSize;
+
 
 
 @Service
@@ -34,10 +35,10 @@ public class AvatarServiceImpl implements AvatarService{
         this.studentService = studentService;
         this.avatarRepository = avatarRepository;
     }
-    public void uploadAvatar(Long id, MultipartFile avatarFile) throws IOException {
-        Student student = studentService.read(id);
+    public void uploadAvatar(Long studentId, MultipartFile avatarFile) throws IOException {
+        Student student = studentService.read(studentId);
 
-        Path filePath = Path.of(avatarsDir, student.getId() + "." + getExtensions(avatarFile.getOriginalFilename()));
+        Path filePath = Path.of(avatarsDir, student.getId() + "." + gatExtensions(avatarFile.getOriginalFilename()));
         Files.createDirectories(filePath.getParent());
         Files.deleteIfExists(filePath);
 
@@ -50,17 +51,18 @@ public class AvatarServiceImpl implements AvatarService{
             bis.transferTo(bos);
         }
 
-        Avatar avatar = avatarRepository.findByStudent_id(id).orElse(new Avatar());
+        Avatar avatar = avatarRepository.findByStudent_id(studentId).orElse(new Avatar());
         avatar.setStudent(student);
         avatar.setFilePath(filePath.toString());
-        avatar.setFileSize(avatarFile, getSize() );
+        avatar.setFileSize(avatarFile.getSize());
+        avatar.setMediaType(avatarFile.getContentType());
         avatar.setData(avatarFile.getBytes());
 
         avatarRepository.save(avatar);
 
     }
 
-    private String gatExtensions(String fileName){
+    public String gatExtensions(String fileName){
         return fileName.substring(fileName.lastIndexOf(".") + 1);
     }
 
