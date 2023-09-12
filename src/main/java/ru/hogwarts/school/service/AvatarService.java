@@ -8,5 +8,7 @@ import java.io.IOException;
 public interface AvatarService {
     void uploadAvatar(Long studentId, MultipartFile avatarFile) throws IOException;
 
+    Avatar readFromDB(long id);
+
     String gatExtensions(String fileName);
 }

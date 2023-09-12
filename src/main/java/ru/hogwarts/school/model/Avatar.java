@@ -6,6 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import java.util.Arrays;
+import java.util.Objects;
 
 @Entity
 public class Avatar {
@@ -51,7 +53,7 @@ public class Avatar {
         return fileSize;
     }
 
-    public void setFileSize(MultipartFile avatarFile, long fileSize) {
+    public void setFileSize(long fileSize) {
         this.fileSize = fileSize;
     }
 
@@ -79,4 +81,32 @@ public class Avatar {
         this.student = student;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Avatar avatar = (Avatar) o;
+        return fileSize == avatar.fileSize && Objects.equals(id, avatar.id)
+                && Objects.equals(filePath, avatar.filePath) && Objects.equals(mediaType, avatar.mediaType)
+                && Arrays.equals(data, avatar.data) && Objects.equals(student, avatar.student);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(id, filePath, fileSize, mediaType, student);
+        result = 31 * result + Arrays.hashCode(data);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Avatar{" +
+                "id=" + id +
+                ", filePath='" + filePath + '\'' +
+                ", fileSize=" + fileSize +
+                ", mediaType='" + mediaType + '\'' +
+                ", data=" + Arrays.toString(data) +
+                ", student=" + student +
+                '}';
+    }
 }

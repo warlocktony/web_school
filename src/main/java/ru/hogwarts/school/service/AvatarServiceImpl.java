@@ -3,6 +3,7 @@ package ru.hogwarts.school.service;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
 import ru.hogwarts.school.model.Avatar;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repository.AvatarRepository;
@@ -60,6 +61,10 @@ public class AvatarServiceImpl implements AvatarService{
 
         avatarRepository.save(avatar);
 
+    }
+    public Avatar readFromDB(long id){
+        return avatarRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("avatar not found"));
     }
 
     public String gatExtensions(String fileName){
