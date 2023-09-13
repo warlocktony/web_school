@@ -69,15 +69,15 @@ public class StudentControllerTest {
         assertEquals(HttpStatus.BAD_REQUEST, studentResponseEntity.getStatusCode());
         assertEquals("Student not found!", studentResponseEntity.getBody());
     }
-//    @Test
-//    void update_studentInDB_returnStatus200AndStudent(){
-//        studentRepository.save(student);
-//        ResponseEntity<Student> update =  restTemplate.exchange("http://localhost:" + port + "/student" ,
-//                HttpMethod.PUT, student, new ParameterizedTypeReference<>() {});
-//
-//        assertEquals(HttpStatus.OK, update.getStatusCode());
-//        assertEquals(List.of(student),update.getBody());
-//    }
+    @Test
+    void update_studentInDB_returnStatus200AndStudent(){
+        studentRepository.save(student);
+        ResponseEntity<Student> update =  restTemplate.exchange("http://localhost:" + port + "/student" ,
+                HttpMethod.PUT, student, new ParameterizedTypeReference<>() {});
+
+        assertEquals(HttpStatus.OK, update.getStatusCode());
+        assertEquals(List.of(student),update.getBody());
+    }
     @Test
     void delete_studentNotInDB_returnStatus400(){
         ResponseEntity<Student> delete =  restTemplate.exchange(
