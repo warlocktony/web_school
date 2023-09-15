@@ -62,11 +62,15 @@ public class AvatarController {
             response.setContentLength((int) avatar.getFileSize());
             is.transferTo(os);
         }
-
-
     }
+    @GetMapping("/page")
+    public List<Avatar> getPage(@RequestParam int pageNumber, @RequestParam int size){
+            return avatarService.getPage(pageNumber, size);
+        }
 
 }
+
+
 
 
 

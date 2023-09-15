@@ -126,12 +126,6 @@ public class StudentServiceImplTest {
         assertEquals(students,result);
     }
 
-    //в тесте getStudentFaculty_id_returnStudentFaculty: необходимо для student1 с
-    //помощью сеттера задать факультет. Затем будет мок для вызова метода
-    //репозитория, который у тебя сейчас есть. И затем result необходимо записать
-    //результат вызова underTest.getStudentFaculty, тип это переменной будет Faculty
-    //вместо Student. Сравниваем result с факультетом, который мы засетили ранее
-    //студенту
 
     @Test
     void getStudentFaculty_id_returnStudentFaculty(){
@@ -141,6 +135,22 @@ public class StudentServiceImplTest {
 
         Faculty result = underTest.getStudentFaculty(0L);
         assertEquals(faculty1,result);
+
+    }
+    @Test
+    void findStudentsOfSchool__returnIntegerNumber(){
+        when(studentRepository.findStudentsOfSchool()).thenReturn(5);
+
+        Integer result = underTest.findStudentsOfSchool();
+        assertEquals(5,result);
+    }
+    @Test
+    void findAvgOfStudentAge__returnIntegerAge(){
+        when(studentRepository.findAvgOfStudentAge()).thenReturn(7);
+
+        Integer result = underTest.findAvgOfStudentAge();
+
+        assertEquals(7,result);
 
     }
 
