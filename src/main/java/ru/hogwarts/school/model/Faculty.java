@@ -76,3 +76,4 @@ public class Faculty {
         return Objects.hash(name, color);
     }
 }
+

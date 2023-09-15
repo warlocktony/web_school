@@ -85,3 +85,4 @@ public class FacultyServiceImpl implements FacultyService {
         return studentRepository.findByFacultyId(id);
     }
 }
+

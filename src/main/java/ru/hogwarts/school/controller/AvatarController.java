@@ -30,32 +30,33 @@ public class AvatarController {
         this.avatarService = avatarService;
     }
 
-        @PostMapping(value = "/{studentId}",
-                consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-                public ResponseEntity<String> uploadAvatar(@PathVariable Long studentId,@RequestParam MultipartFile avatar)
+    @PostMapping(value = "/{studentId}",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<String> uploadAvatar(@PathVariable Long studentId, @RequestParam MultipartFile avatar)
             throws IOException {
 
-            if (avatar.getSize() > 1024 * maxFileSizeInKb) {
-                return ResponseEntity.badRequest().body("picture size is big");
-            }
-            avatarService.uploadAvatar(studentId, avatar);
-            return ResponseEntity.ok().body("picture is save");
+        if (avatar.getSize() > 1024 * maxFileSizeInKb) {
+            return ResponseEntity.badRequest().body("picture size is big");
         }
+        avatarService.uploadAvatar(studentId, avatar);
+        return ResponseEntity.ok().body("picture is save");
+    }
 
-        @GetMapping("/{id}/avatar-from-db")
-        public ResponseEntity<byte[]> downloadAvatarFromDB(@PathVariable long id){
+    @GetMapping("/{id}/avatar-from-db")
+    public ResponseEntity<byte[]> downloadAvatarFromDB(@PathVariable long id) {
         Avatar avatar = avatarService.readFromDB(id);
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.parseMediaType(avatar.getMediaType()));
-            headers.setContentLength(avatar.getData().length);
-            return ResponseEntity.ok().headers(headers).body(avatar.getData());
-        }
-        @GetMapping(value = "/{id}/avatar-from-file")
-        public void downloadAvatarFile(@PathVariable Long id, HttpServletResponse response) throws IOException{
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.parseMediaType(avatar.getMediaType()));
+        headers.setContentLength(avatar.getData().length);
+        return ResponseEntity.ok().headers(headers).body(avatar.getData());
+    }
+
+    @GetMapping(value = "/{id}/avatar-from-file")
+    public void downloadAvatarFile(@PathVariable Long id, HttpServletResponse response) throws IOException {
         Avatar avatar = avatarService.readFromDB(id);
         Path path = Path.of(avatar.getFilePath());
         try (InputStream is = Files.newInputStream(path);
-             OutputStream os = response.getOutputStream()){
+             OutputStream os = response.getOutputStream()) {
             response.setStatus(HttpStatus.OK.value());
             response.setContentType(avatar.getMediaType());
             response.setContentLength((int) avatar.getFileSize());

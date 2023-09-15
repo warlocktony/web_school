@@ -12,3 +12,4 @@ public interface AvatarService {
 
     String gatExtensions(String fileName);
 }
+

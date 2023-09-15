@@ -6,6 +6,7 @@ import ru.hogwarts.school.model.Avatar;
 
 import java.util.Optional;
 import java.util.function.LongConsumer;
+
 @Repository
 public interface AvatarRepository extends JpaRepository<Avatar, Long> {
 
