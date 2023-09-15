@@ -6,6 +6,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import ru.hogwarts.school.exception.StudentException;
+import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repository.StudentRepository;
 
@@ -27,6 +28,7 @@ public class StudentServiceImplTest {
     StudentServiceImpl underTest;
 
     Student student1 = new Student(0L, "Voland De Mord", 10_000);
+    Faculty faculty1 = new Faculty(0L, "Slizerine", "Green");
     Student student2 = new Student(1L,
             "Albus Persivald Wulfreak Braine Damboldor", 100_000);
     List<Student> students = List.of(student1, student2);
@@ -115,8 +117,31 @@ public class StudentServiceImplTest {
         Collection<Student> result = underTest.readAll(10_000);
         assertEquals(students, result);
 
+    }
+    @Test
+    void readBetween_minAgeMaxAge_returnCollectionOdStudents(){
+        when(studentRepository.findByAgeBetween(10_000, 100_000)).thenReturn(students);
 
+        Collection<Student> result = underTest.readBetween(10_000,100_000);
+        assertEquals(students,result);
     }
 
+    //в тесте getStudentFaculty_id_returnStudentFaculty: необходимо для student1 с
+    //помощью сеттера задать факультет. Затем будет мок для вызова метода
+    //репозитория, который у тебя сейчас есть. И затем result необходимо записать
+    //результат вызова underTest.getStudentFaculty, тип это переменной будет Faculty
+    //вместо Student. Сравниваем result с факультетом, который мы засетили ранее
+    //студенту
+
+    @Test
+    void getStudentFaculty_id_returnStudentFaculty(){
+
+        student1.setFaculty(faculty1);
+        when(studentRepository.findById(0L)).thenReturn(Optional.of(student1));
+
+        Faculty result = underTest.getStudentFaculty(0L);
+        assertEquals(faculty1,result);
+
+    }
 
 }
