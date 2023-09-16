@@ -42,6 +42,7 @@ public class StudentControllerTest {
 
 
     Student student = new Student(0L, "Velen", 100_000);
+
     Faculty faculty = new Faculty(0L, "Slizerine", "Green");
 
 
@@ -129,6 +130,40 @@ public class StudentControllerTest {
 
         assertEquals(HttpStatus.OK, studentFaculty.getStatusCode());
         assertEquals(resultFacultySave, studentFaculty.getBody());
+    }
+    @Test
+    void findStudentsOfSchool__returnStatus200AndIntegerNumber(){
+        Integer result = studentRepository.findStudentsOfSchool();
+
+        ResponseEntity<Integer> studentsOfSchool = restTemplate.getForEntity("http://localhost:"
+                + port + "/student/count", Integer.class );
+
+        assertEquals(HttpStatus.OK, studentsOfSchool.getStatusCode());
+        assertEquals(result, studentsOfSchool.getBody());
+
+    }
+    @Test
+    void findAvgOfStudentAge__returnStatus200AndIntegerAvgOfStudentAge(){
+        Integer result  = studentRepository.findAvgOfStudentAge();
+
+        ResponseEntity<Integer> avgOfStudentAge = restTemplate.getForEntity("http://localhost:"
+                + port + "/student/age - avg", Integer.class );
+
+        assertEquals(HttpStatus.OK, avgOfStudentAge.getStatusCode());
+        assertEquals(result, avgOfStudentAge.getBody());
+    }
+    @Test
+    void findFiveLastStudents__returnStatus200AndListOfStudents() {
+            studentRepository.save(student);
+
+
+        ResponseEntity<List<Student>> fiveLastStudents = restTemplate.exchange(
+                "http://localhost:" + port + "/student/last - five",
+                HttpMethod.GET, null, new ParameterizedTypeReference<>() {
+                });
+
+        assertEquals(HttpStatus.OK, fiveLastStudents.getStatusCode());
+        assertEquals(List.of(student), fiveLastStudents.getBody());
     }
 
 }

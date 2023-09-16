@@ -70,7 +70,8 @@ public class AvatarServiceImpl implements AvatarService {
         return avatarRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("avatar not found"));
     }
-    public List<Avatar> getPage(int pageNumber, int size){
+
+    public List<Avatar> getPage(int pageNumber, int size) {
         PageRequest pageRequest = PageRequest.of(pageNumber, size);
         return avatarRepository.findAll(pageRequest).getContent();
     }
@@ -80,4 +81,5 @@ public class AvatarServiceImpl implements AvatarService {
     }
 
 }
+
 

@@ -55,13 +55,7 @@ public class Faculty {
         this.color = color;
     }
 
-    public List<Student> getStudent() {
-        return students;
-    }
 
-    public void setStudent(List<Student> students) {
-        this.students = students;
-    }
 
     @Override
     public boolean equals(Object o) {

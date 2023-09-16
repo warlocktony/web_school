@@ -27,11 +27,17 @@ public class StudentServiceImplTest {
     @InjectMocks
     StudentServiceImpl underTest;
 
-    Student student1 = new Student(0L, "Voland De Mord", 10_000);
+
     Faculty faculty1 = new Faculty(0L, "Slizerine", "Green");
+    Student student1 = new Student(0L, "Voland De Mord", 10_000);
     Student student2 = new Student(1L,
             "Albus Persivald Wulfreak Braine Damboldor", 100_000);
-    List<Student> students = List.of(student1, student2);
+    Student student3 = new Student(2L, "Garry Potter", 15);
+    Student student4 = new Student(3L, "Ron Uwizly", 14);
+    Student student5 = new Student(4L, "Germiona Greindger", 14);
+
+
+    List<Student> students = List.of(student1, student2, student3, student4, student5);
 
 
     @Test
@@ -152,6 +158,14 @@ public class StudentServiceImplTest {
 
         assertEquals(7,result);
 
+    }
+    @Test
+    void findFiveLastStudents__returnListStudents(){
+        when(studentRepository.getLast(5)).thenReturn(students);
+
+        List<Student> result = underTest.findFiveLastStudents();
+
+        assertEquals(students,result);
     }
 
 }

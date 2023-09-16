@@ -1,5 +1,6 @@
 package ru.hogwarts.school.controller;
 
+
 import org.hibernate.mapping.ManyToOne;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -15,8 +16,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.awt.*;
+
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/avatar")

@@ -39,8 +39,8 @@ public class AvatarServiceImplTest {
 
 
     @Test
-    void uploadAvatar__avatarSavedToDBAndDir()throws IOException {
-        MultipartFile file = new MockMultipartFile("9.jpg","9.jpg",
+    void uploadAvatar__avatarSavedToDBAndDir() throws IOException {
+        MultipartFile file = new MockMultipartFile("9.jpg", "9.jpg",
                 "jpg", new byte[]{});
         when(studentService.read(student1.getId())).thenReturn(student1);
         when(avatarRepository.findByStudent_id(student1.getId())).thenReturn(Optional.empty());
@@ -54,8 +54,9 @@ public class AvatarServiceImplTest {
 
 
     }
+
     @Test
-    void readFromDB_studentInRepository_returnAvatar(){
+    void readFromDB_studentInRepository_returnAvatar() {
 
         when(avatarRepository.findById(0L)).thenReturn(Optional.of(avatar1));
 
@@ -63,6 +64,7 @@ public class AvatarServiceImplTest {
         assertEquals(avatar1, result);
 
     }
+
     @Test
     void readFromDB_studentNotInRepository_returnAvatar() {
         when(avatarRepository.findById(0L))
@@ -73,16 +75,16 @@ public class AvatarServiceImplTest {
         assertEquals("avatar not found", ex.getMessage());
 
     }
+
     @Test
-    void getPage__returnListOfAvatar(){
-        when(avatarRepository.findAll((PageRequest)any()))
+    void getPage__returnListOfAvatar() {
+        when(avatarRepository.findAll((PageRequest) any()))
                 .thenReturn(new PageImpl<>(List.of(avatarEmpty)));
 
-        List<Avatar> result = avatarService.getPage(0,1);
+        List<Avatar> result = avatarService.getPage(0, 1);
 
-        assertEquals(List.of(avatarEmpty),result);
+        assertEquals(List.of(avatarEmpty), result);
     }
-
 
 
 }
