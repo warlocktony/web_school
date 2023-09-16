@@ -7,7 +7,9 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import ru.hogwarts.school.exception.FacultyException;
 import ru.hogwarts.school.model.Faculty;
+import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repository.FacultyRepository;
+import ru.hogwarts.school.repository.StudentRepository;
 
 
 import java.util.Collection;
@@ -15,6 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.shortThat;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -22,6 +25,8 @@ public class FacultyServiceImplTest {
 
     @Mock
     FacultyRepository facultyRepository;
+    @Mock
+    StudentRepository studentRepository;
 
     @InjectMocks
     FacultyServiceImpl underTest;
@@ -29,7 +34,10 @@ public class FacultyServiceImplTest {
 
     Faculty faculty1 = new Faculty(0L, "Slizerine", "Green");
     Faculty faculty2 = new Faculty(1L, "Grifindor", "Red");
+    Student student1 = new Student(0L, "Voland De Mord", 10_000);
     List<Faculty> facultyes = List.of(faculty1, faculty2);
+
+
 
 
 
@@ -127,6 +135,28 @@ public class FacultyServiceImplTest {
 
         Collection<Faculty> result = underTest.readAll("Green");
         assertEquals(facultyes,result);
+
+    }
+    @Test
+    void readAllByNameOrColor_nameColor_returnFaculty(){
+        when(facultyRepository.findByNameContainingIgnoreCaseOrColorContainingIgnoreCase("Slizerine",""))
+                .thenReturn(facultyes);
+
+        Collection<Faculty> result = underTest.readAllByNameOrColor("Slizerine","");
+        assertEquals(facultyes,result);
+
+    }
+
+    @Test
+    void findById_id_returnCollectionStudent(){
+        List<Student> students = List.of(student1);
+
+        when(studentRepository.findByFacultyId(0L)).thenReturn(students);
+
+        List<Student> result = underTest.findById(0L);
+
+        assertEquals(students,result);
+
 
     }
 
