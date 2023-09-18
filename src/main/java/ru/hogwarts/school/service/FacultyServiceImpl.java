@@ -61,7 +61,7 @@ public class FacultyServiceImpl implements FacultyService {
         }
         Faculty getFaculty = faculty.get();
 
-        logger.info("from method read return" + id);
+        logger.info("from method read return" + getFaculty);
 
         return getFaculty;
     }
@@ -94,7 +94,7 @@ public class FacultyServiceImpl implements FacultyService {
 
         Faculty getDeleteFaculty = faculty.get();
 
-        logger.info("from method delete return" + id);
+        logger.info("from method delete return" + getDeleteFaculty);
 
         return getDeleteFaculty;
 
@@ -105,7 +105,7 @@ public class FacultyServiceImpl implements FacultyService {
 
         List<Faculty> findByColorIgnoreCase = facultyRepository.findByColorIgnoreCase(color);
 
-        logger.info("from method readAll return" + color);
+        logger.info("from method readAll return" + findByColorIgnoreCase);
 
         return findByColorIgnoreCase;
     }
@@ -116,7 +116,7 @@ public class FacultyServiceImpl implements FacultyService {
         List<Faculty> findByNameContainingIgnoreCaseOrColorContainingIgnoreCase =
                 facultyRepository.findByNameContainingIgnoreCaseOrColorContainingIgnoreCase(searchName, searchColor);
 
-        logger.info("from method readAllByNameOrColor return" + searchName + searchColor);
+        logger.info("from method readAllByNameOrColor return" + findByNameContainingIgnoreCaseOrColorContainingIgnoreCase);
 
         return findByNameContainingIgnoreCaseOrColorContainingIgnoreCase;
     }
@@ -127,7 +127,7 @@ public class FacultyServiceImpl implements FacultyService {
         List<Student> findByFacultyId =
                 studentRepository.findByFacultyId(id);
 
-        logger.info("from method findById return" + id);
+        logger.info("from method findById return" + findByFacultyId);
 
         return findByFacultyId;
     }

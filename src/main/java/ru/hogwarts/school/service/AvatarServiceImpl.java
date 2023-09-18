@@ -78,7 +78,7 @@ public class AvatarServiceImpl implements AvatarService {
         Avatar findByIdAvatar = avatarRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("avatar not found"));
 
-        logger.info("from method readFromDB return" + id);
+        logger.info("from method readFromDB return" + findByIdAvatar);
 
         return findByIdAvatar;
     }
@@ -90,7 +90,7 @@ public class AvatarServiceImpl implements AvatarService {
 
         List<Avatar> findAllAndGetContent = avatarRepository.findAll(pageRequest).getContent();
 
-        logger.info("from method getPage return" + pageNumber + size);
+        logger.info("from method getPage return" + findAllAndGetContent);
 
 
         return findAllAndGetContent;
@@ -101,7 +101,7 @@ public class AvatarServiceImpl implements AvatarService {
 
         String result = fileName.substring(fileName.lastIndexOf(".") + 1);
 
-        logger.info("from method gatExtensions return" + fileName);
+        logger.info("from method gatExtensions return" + result);
 
 
         return result;

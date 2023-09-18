@@ -35,8 +35,6 @@ public class StudentServiceImpl implements StudentService {
         }
         Student saveStudent = studentRepository.save(student);
 
-
-
        logger.info("from method create return" + student);
 
        return saveStudent;
@@ -55,7 +53,7 @@ public class StudentServiceImpl implements StudentService {
 
         Student getStudent = student.get();
 
-        logger.info("from method read return" + id);
+        logger.info("from method read return" + getStudent);
 
         return getStudent;
     }
@@ -87,7 +85,7 @@ public class StudentServiceImpl implements StudentService {
 
         Student studentGetDelete = student.get();
 
-        logger.info("from method delete return" + id);
+        logger.info("from method delete return" + studentGetDelete);
 
         return studentGetDelete;
 
@@ -98,7 +96,7 @@ public class StudentServiceImpl implements StudentService {
 
         List<Student> findByAge = studentRepository.findByAge(age);
 
-        logger.info("from method readAll return" + age);
+        logger.info("from method readAll return" + findByAge);
 
         return findByAge;
     }
@@ -108,7 +106,7 @@ public class StudentServiceImpl implements StudentService {
 
         List<Student> findByAgeBetween = studentRepository.findByAgeBetween(minAge, maxAge);
 
-        logger.info("from method readBetween return" + minAge + maxAge);
+        logger.info("from method readBetween return" + findByAgeBetween);
 
         return findByAgeBetween;
     }
@@ -123,7 +121,7 @@ public class StudentServiceImpl implements StudentService {
 
         Faculty getStudentGetFaculty = student.get().getFaculty();
 
-        logger.info("from method getStudentFaculty return" + id);
+        logger.info("from method getStudentFaculty return" + getStudentGetFaculty);
 
 
         return getStudentGetFaculty;
