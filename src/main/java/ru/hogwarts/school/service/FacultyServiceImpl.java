@@ -12,6 +12,7 @@ import ru.hogwarts.school.repository.FacultyRepository;
 import ru.hogwarts.school.repository.StudentRepository;
 
 
+import java.util.Comparator;
 import java.util.List;
 
 import java.util.Optional;
@@ -130,6 +131,12 @@ public class FacultyServiceImpl implements FacultyService {
         logger.info("from method findById return" + findByFacultyId);
 
         return findByFacultyId;
+    }
+    public String findByLongestNameFaculty(){
+        return facultyRepository.findAll().stream()
+                .map(faculty ->faculty.getName())
+                .max(Comparator.comparingInt(name ->name.length()))
+                .orElseThrow(()->new FacultyException("no faculty in base"));
     }
 }
 

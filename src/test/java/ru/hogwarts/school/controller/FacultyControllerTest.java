@@ -136,6 +136,20 @@ public class FacultyControllerTest {
                 .andExpect(jsonPath("$[0].name").value(student.getName()))
                 .andExpect(jsonPath("$[0].age").value(student.getAge()));
     }
+    @Test
+    void findByLongestNameFaculty__status200AndReturnStringName() throws Exception{
+        when(facultyService.findByLongestNameFaculty()).thenReturn(faculty.getName());
+
+        mockMvc.perform(get("/faculty/longest-name"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].name").value(faculty.getName()));
+
+
+
+
+
+
+    }
 
 
 }

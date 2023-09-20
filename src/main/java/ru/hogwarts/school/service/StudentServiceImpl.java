@@ -1,5 +1,6 @@
 package ru.hogwarts.school.service;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,7 @@ import ru.hogwarts.school.repository.StudentRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -145,5 +147,21 @@ public class StudentServiceImpl implements StudentService {
 
         return studentRepository.getLast(5);
     }
+    public List<String> findNameStartsWithLetterA(){
+       return studentRepository.findAll().stream()
+                .map(student -> student.getName())
+                .filter(name -> StringUtils.startsWithIgnoreCase(name,"a"))
+                .map(name ->name.toUpperCase())
+                .sorted()
+                .collect(Collectors.toList());
+    }
+    public Double findAvgOfStudentByStream(){
+        return studentRepository.findAll().stream()
+                .mapToInt(student -> student.getAge())
+                .average()
+                .orElse(0);
+    }
+
+
 
 }

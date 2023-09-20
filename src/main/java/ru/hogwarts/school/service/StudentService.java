@@ -28,6 +28,10 @@ public interface StudentService {
 
     List<Student> findFiveLastStudents();
 
+    List<String> findNameStartsWithLetterA();
+
+    Double findAvgOfStudentByStream();
+
 }
 
 

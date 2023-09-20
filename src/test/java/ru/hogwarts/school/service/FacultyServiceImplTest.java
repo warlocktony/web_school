@@ -5,6 +5,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.mock.mockito.SpyBean;
 import ru.hogwarts.school.exception.FacultyException;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
@@ -27,6 +28,8 @@ public class FacultyServiceImplTest {
     FacultyRepository facultyRepository;
     @Mock
     StudentRepository studentRepository;
+    @Mock
+    FacultyService facultyService;
 
     @InjectMocks
     FacultyServiceImpl underTest;
@@ -157,6 +160,16 @@ public class FacultyServiceImplTest {
 
         assertEquals(students,result);
 
+
+    }
+    @Test
+    void findByLongestNameFaculty__returnNameOfFaculty(){
+        Faculty facultySaveRes = facultyRepository.save(faculty1);
+        when(facultyService.findByLongestNameFaculty()).thenReturn(facultySaveRes.getName());
+
+        String res = underTest.findByLongestNameFaculty();
+
+        assertEquals(facultySaveRes.getName(),res);
 
     }
 

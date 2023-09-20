@@ -5,6 +5,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.mock.mockito.SpyBean;
 import ru.hogwarts.school.exception.StudentException;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
@@ -23,9 +24,12 @@ public class StudentServiceImplTest {
 
     @Mock
     StudentRepository studentRepository;
+    @Mock
+    StudentService studentService;
 
     @InjectMocks
     StudentServiceImpl underTest;
+
 
 
     Faculty faculty1 = new Faculty(0L, "Slizerine", "Green");
@@ -166,6 +170,24 @@ public class StudentServiceImplTest {
         List<Student> result = underTest.findFiveLastStudents();
 
         assertEquals(students,result);
+    }
+    @Test
+    void findNameStartsWithLetterA__returnListName(){
+        List<String> strings = List.of("TEST");
+        when(studentService.findNameStartsWithLetterA()).thenReturn(strings);
+
+        List<String> res = studentService.findNameStartsWithLetterA();
+
+        assertEquals(strings,res);
+
+    }
+    @Test
+    void findAvgOfStudentByStream__returnDoubleAge(){
+        when(studentService.findAvgOfStudentByStream()).thenReturn(7.5);
+
+        Double result = studentService.findAvgOfStudentByStream();
+
+        assertEquals(7.5,result);
     }
 
 }

@@ -15,6 +15,7 @@ import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repository.FacultyRepository;
 import ru.hogwarts.school.repository.StudentRepository;
+import ru.hogwarts.school.service.StudentService;
 
 import java.util.List;
 
@@ -34,6 +35,9 @@ public class StudentControllerTest {
 
     @Autowired
     FacultyRepository facultyRepository;
+
+    @Autowired
+    StudentService studentService;
 
     @AfterEach
     void afterEach() {
@@ -165,5 +169,32 @@ public class StudentControllerTest {
         assertEquals(HttpStatus.OK, fiveLastStudents.getStatusCode());
         assertEquals(List.of(student), fiveLastStudents.getBody());
     }
+    @Test
+    void findNameStartsWithLetterA__returnStatus200AndListOfString(){
+        studentRepository.save(student);
+        List<String> result = studentService.findNameStartsWithLetterA();
+
+        ResponseEntity<List<String>> findNameStartsWithLetterA = restTemplate.exchange(
+                "http://localhost:" + port + "/name-start-a",
+                HttpMethod.GET, null, new ParameterizedTypeReference<>() {
+                });
+
+
+        assertEquals(HttpStatus.OK, findNameStartsWithLetterA.getStatusCode());
+        assertEquals(result, findNameStartsWithLetterA.getBody());
+
+    }
+    @Test
+    void findAvgOfStudentByStream__returnStatus200AndDoubleAvgOfStudentAgeByStream(){
+        Double result = studentService.findAvgOfStudentByStream();
+
+        ResponseEntity<Double> avgOfStudentAgeByStream = restTemplate.getForEntity("http://localhost:"
+                + port + "/student/age-avg-by-stream", Double.class );
+
+        assertEquals(HttpStatus.OK, avgOfStudentAgeByStream.getStatusCode());
+        assertEquals(result, avgOfStudentAgeByStream.getBody());
+
+    }
+
 
 }
