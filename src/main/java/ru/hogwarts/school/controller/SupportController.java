@@ -3,12 +3,19 @@ package ru.hogwarts.school.controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ru.hogwarts.school.service.ThreadService;
 
 import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/support")
 public class SupportController {
+
+    private ThreadService threadService;
+
+    public SupportController(ThreadService threadService){
+        this.threadService=threadService;
+    }
 
     @GetMapping
     public Integer sumNumber() {
@@ -20,5 +27,13 @@ public class SupportController {
         long finish = System.currentTimeMillis();
         System.out.println(finish - start);
         return sum;
+    }
+    @GetMapping("/thread")
+    public void startThread(){
+        threadService.thread();
+    }
+    @GetMapping("/thread-two")
+    public void startThreadTwo(){
+        threadService.threadTwo();
     }
 }
