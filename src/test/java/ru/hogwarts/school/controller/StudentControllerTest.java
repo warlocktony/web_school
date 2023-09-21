@@ -171,15 +171,15 @@ public class StudentControllerTest {
     }
     @Test
     void findNameStartsWithLetterA__returnStatus200AndListOfString(){
-            Student s1 = new Student(0L,"ANFY",25);
-            Student s2 = new Student(1L,"FORTER",28);
+            Student s1 = new Student(1L,"ANFY",25);
+            Student s2 = new Student(0L,"FORTER",28);
 
             studentRepository.save(s1);
             studentRepository.save(s2);
 
 
         ResponseEntity<List<String>> findNameStartsWithLetterA = restTemplate.exchange(
-                "http://localhost:" + port + "/name-start-a",
+                "http://localhost:" + port + "/student/name-start-a",
                 HttpMethod.GET, null, new ParameterizedTypeReference<>() {
                 });
 
