@@ -51,6 +51,8 @@ public class FacultyControllerTest {
 
 
     List<Student> students = List.of(student, student1);
+    List<Faculty> faculties = List.of(faculty);
+
 
 
     @Test
@@ -138,11 +140,11 @@ public class FacultyControllerTest {
     }
     @Test
     void findByLongestNameFaculty__status200AndReturnStringName() throws Exception{
-        when(facultyService.findByLongestNameFaculty()).thenReturn(faculty.getName());
+        when(facultyRepository.findAll()).thenReturn(faculties);
 
         mockMvc.perform(get("/faculty/longest-name"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].name").value(faculty.getName()));
+                .andExpect(jsonPath("$").value(faculty.getName()));
 
 
 

@@ -171,17 +171,20 @@ public class StudentControllerTest {
     }
     @Test
     void findNameStartsWithLetterA__returnStatus200AndListOfString(){
-        studentRepository.save(student);
-        List<String> result = studentService.findNameStartsWithLetterA();
+            Student s1 = new Student(0L,"ANFY",25);
+            Student s2 = new Student(1L,"FORTER",28);
+
+            studentRepository.save(s1);
+            studentRepository.save(s2);
+
 
         ResponseEntity<List<String>> findNameStartsWithLetterA = restTemplate.exchange(
                 "http://localhost:" + port + "/name-start-a",
                 HttpMethod.GET, null, new ParameterizedTypeReference<>() {
                 });
 
-
         assertEquals(HttpStatus.OK, findNameStartsWithLetterA.getStatusCode());
-        assertEquals(result, findNameStartsWithLetterA.getBody());
+        assertEquals(List.of(s1.getName()), findNameStartsWithLetterA.getBody());
 
     }
     @Test

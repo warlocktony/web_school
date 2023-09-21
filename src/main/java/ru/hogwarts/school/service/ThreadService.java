@@ -37,29 +37,36 @@ public class ThreadService {
 
     public void threadTwo() {
         List<Student> all = studentRepository.findAll();
-        logStudent(all.get(0));
-        logStudent(all.get(1));
+        logStudentTwo(all.get(0));
+        logStudentTwo(all.get(1));
 
         new Thread(() -> {
-            logStudent(all.get(2));
-            logStudent(all.get(3));
+            logStudentTwo(all.get(2));
+            logStudentTwo(all.get(3));
         }).start();
 
         new Thread(() -> {
-            logStudent(all.get(4));
-            logStudent(all.get(5));
+            logStudentTwo(all.get(4));
+            logStudentTwo(all.get(5));
         }).start();
     }
 
-
-
-    private synchronized void logStudent(Student student){
+    private void logStudent(Student student){
         try {
-            Thread.sleep(3000);
+            Thread.sleep(1000);
         }catch (InterruptedException exception){
             exception.printStackTrace();
         }
         logger.info(student.toString());
     }
+    private synchronized void logStudentTwo(Student student) {
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException exception) {
+            exception.printStackTrace();
+        }
+        logger.info(student.toString());
+    }
+
 
 }

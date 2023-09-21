@@ -38,7 +38,8 @@ public class FacultyServiceImplTest {
     Faculty faculty1 = new Faculty(0L, "Slizerine", "Green");
     Faculty faculty2 = new Faculty(1L, "Grifindor", "Red");
     Student student1 = new Student(0L, "Voland De Mord", 10_000);
-    List<Faculty> facultyes = List.of(faculty1, faculty2);
+    List<Faculty> facultyes = List.of(faculty1);
+
 
 
 
@@ -164,12 +165,14 @@ public class FacultyServiceImplTest {
     }
     @Test
     void findByLongestNameFaculty__returnNameOfFaculty(){
-        Faculty facultySaveRes = facultyRepository.save(faculty1);
-        when(facultyService.findByLongestNameFaculty()).thenReturn(facultySaveRes.getName());
+
+        when(facultyRepository.findAll()).thenReturn(facultyes);
+
+
 
         String res = underTest.findByLongestNameFaculty();
 
-        assertEquals(facultySaveRes.getName(),res);
+        assertEquals(facultyes.get(0).getName(),res);
 
     }
 

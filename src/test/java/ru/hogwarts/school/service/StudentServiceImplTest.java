@@ -173,7 +173,8 @@ public class StudentServiceImplTest {
     }
     @Test
     void findNameStartsWithLetterA__returnListName(){
-        List<String> strings = List.of("TEST");
+        List<String> strings = List.of("ANFY");
+
         when(studentService.findNameStartsWithLetterA()).thenReturn(strings);
 
         List<String> res = studentService.findNameStartsWithLetterA();
