@@ -24,8 +24,6 @@ public class StudentServiceImplTest {
 
     @Mock
     StudentRepository studentRepository;
-    @Mock
-    StudentService studentService;
 
     @InjectMocks
     StudentServiceImpl underTest;
@@ -173,22 +171,38 @@ public class StudentServiceImplTest {
     }
     @Test
     void findNameStartsWithLetterA__returnListName(){
-        List<String> strings = List.of("ANFY");
+        Student s1 = new Student(0L,"ANFY",25);
+        Student s2 = new Student(1L,"FORTER",28);
 
-        when(studentService.findNameStartsWithLetterA()).thenReturn(strings);
+        studentRepository.save(s1);
+        studentRepository.save(s2);
 
-        List<String> res = studentService.findNameStartsWithLetterA();
+        List<Student> stud = List.of(s1,s2);
 
-        assertEquals(strings,res);
+        when(studentRepository.findAll()).thenReturn(stud);
+
+        List<String> res = underTest.findNameStartsWithLetterA();
+
+        assertEquals(List.of(stud.get(0).getName()),res);
 
     }
     @Test
     void findAvgOfStudentByStream__returnDoubleAge(){
-        when(studentService.findAvgOfStudentByStream()).thenReturn(7.5);
+        Student s1 = new Student(0L,"ANFY",20);
+        Student s2 = new Student(1L,"FORTER",30);
 
-        Double result = studentService.findAvgOfStudentByStream();
+        studentRepository.save(s1);
+        studentRepository.save(s2);
 
-        assertEquals(7.5,result);
+        List<Student> stud = List.of(s1,s2);
+
+        when(studentRepository.findAll()).thenReturn(stud);
+
+        int res = (stud.get(0).getAge() + stud.get(1).getAge())/2;
+
+        Double resultUnderTest = underTest.findAvgOfStudentByStream();
+
+        assertEquals(res,resultUnderTest);
     }
 
 }

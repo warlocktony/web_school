@@ -45,7 +45,9 @@ public class StudentControllerTest {
     }
 
 
-    Student student = new Student(0L, "Velen", 100_000);
+    Student student = new Student(1L, "Velen", 100_000);
+    Student student2 = new Student(0L, "Guldan", 50_000);
+
 
     Faculty faculty = new Faculty(0L, "Slizerine", "Green");
 
@@ -189,7 +191,10 @@ public class StudentControllerTest {
     }
     @Test
     void findAvgOfStudentByStream__returnStatus200AndDoubleAvgOfStudentAgeByStream(){
-        Double result = studentService.findAvgOfStudentByStream();
+        studentRepository.save(student);
+        studentRepository.save(student2);
+
+        Double result = (double)(student.getAge() + student2.getAge())/2;
 
         ResponseEntity<Double> avgOfStudentAgeByStream = restTemplate.getForEntity("http://localhost:"
                 + port + "/student/age-avg-by-stream", Double.class );
