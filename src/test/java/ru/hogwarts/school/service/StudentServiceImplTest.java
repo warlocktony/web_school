@@ -5,7 +5,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.mock.mockito.SpyBean;
 import ru.hogwarts.school.exception.StudentException;
+import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repository.StudentRepository;
 
@@ -26,10 +28,18 @@ public class StudentServiceImplTest {
     @InjectMocks
     StudentServiceImpl underTest;
 
+
+
+    Faculty faculty1 = new Faculty(0L, "Slizerine", "Green");
     Student student1 = new Student(0L, "Voland De Mord", 10_000);
     Student student2 = new Student(1L,
             "Albus Persivald Wulfreak Braine Damboldor", 100_000);
-    List<Student> students = List.of(student1, student2);
+    Student student3 = new Student(2L, "Garry Potter", 15);
+    Student student4 = new Student(3L, "Ron Uwizly", 14);
+    Student student5 = new Student(4L, "Germiona Greindger", 14);
+
+
+    List<Student> students = List.of(student1, student2, student3, student4, student5);
 
 
     @Test
@@ -115,8 +125,84 @@ public class StudentServiceImplTest {
         Collection<Student> result = underTest.readAll(10_000);
         assertEquals(students, result);
 
+    }
+    @Test
+    void readBetween_minAgeMaxAge_returnCollectionOdStudents(){
+        when(studentRepository.findByAgeBetween(10_000, 100_000)).thenReturn(students);
 
+        Collection<Student> result = underTest.readBetween(10_000,100_000);
+        assertEquals(students,result);
     }
 
+
+    @Test
+    void getStudentFaculty_id_returnStudentFaculty(){
+
+        student1.setFaculty(faculty1);
+        when(studentRepository.findById(0L)).thenReturn(Optional.of(student1));
+
+        Faculty result = underTest.getStudentFaculty(0L);
+        assertEquals(faculty1,result);
+
+    }
+    @Test
+    void findStudentsOfSchool__returnIntegerNumber(){
+        when(studentRepository.findStudentsOfSchool()).thenReturn(5);
+
+        Integer result = underTest.findStudentsOfSchool();
+        assertEquals(5,result);
+    }
+    @Test
+    void findAvgOfStudentAge__returnIntegerAge(){
+        when(studentRepository.findAvgOfStudentAge()).thenReturn(7);
+
+        Integer result = underTest.findAvgOfStudentAge();
+
+        assertEquals(7,result);
+
+    }
+    @Test
+    void findFiveLastStudents__returnListStudents(){
+        when(studentRepository.getLast(5)).thenReturn(students);
+
+        List<Student> result = underTest.findFiveLastStudents();
+
+        assertEquals(students,result);
+    }
+    @Test
+    void findNameStartsWithLetterA__returnListName(){
+        Student s1 = new Student(0L,"ANFY",25);
+        Student s2 = new Student(1L,"FORTER",28);
+
+        studentRepository.save(s1);
+        studentRepository.save(s2);
+
+        List<Student> stud = List.of(s1,s2);
+
+        when(studentRepository.findAll()).thenReturn(stud);
+
+        List<String> res = underTest.findNameStartsWithLetterA();
+
+        assertEquals(List.of(stud.get(0).getName()),res);
+
+    }
+    @Test
+    void findAvgOfStudentByStream__returnDoubleAge(){
+        Student s1 = new Student(0L,"ANFY",20);
+        Student s2 = new Student(1L,"FORTER",30);
+
+        studentRepository.save(s1);
+        studentRepository.save(s2);
+
+        List<Student> stud = List.of(s1,s2);
+
+        when(studentRepository.findAll()).thenReturn(stud);
+
+        int res = (stud.get(0).getAge() + stud.get(1).getAge())/2;
+
+        Double resultUnderTest = underTest.findAvgOfStudentByStream();
+
+        assertEquals(res,resultUnderTest);
+    }
 
 }
